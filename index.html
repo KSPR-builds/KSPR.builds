@@ -1,1 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KSPR Builds</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #f9f9f7;
+      --surface: #ffffff;
+      --text-primary: #1a1a1a;
+      --text-secondary: #555;
+      --text-muted: #888;
+      --accent: #2d2d2d;
+      --accent-light: #e8e8e4;
+      --border: #e2e2de;
+      --nav-bg: rgba(249, 249, 247, 0.95);
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.7;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--nav-bg);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 60px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo-mark {
+      width: 36px;
+      height: 36px;
+      background: #1a1a1a;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.2px;
+    }
+
+    .logo-text span {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text-primary); }
+
+    /* Language selector */
+    .lang-selector {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 10px;
+      background: var(--surface);
+      cursor: pointer;
+    }
+
+    .lang-selector select {
+      border: none;
+      background: transparent;
+      font-size: 13px;
+      color: var(--text-primary);
+      cursor: pointer;
+      outline: none;
+      padding-right: 4px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--accent-light);
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -1px;
+      color: var(--text-primary);
+      margin-bottom: 1.2rem;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--text-muted);
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      background: var(--text-primary);
+      color: #fff;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .btn-primary:hover { opacity: 0.85; }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-outline:hover { background: var(--accent-light); }
+
+    /* ── STATS STRIP ── */
+    .stats-strip {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+
+    .stat-item {
+      padding: 1.5rem 2.5rem;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+
+    .stat-item:last-child { border-right: none; }
+
+    .stat-number {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -1px;
+      color: var(--text-primary);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-top: 2px;
+    }
+
+    /* ── SERVICES ── */
+    .section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    .section-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 2.5rem;
+      color: var(--text-primary);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .service-card {
+      background: var(--surface);
+      padding: 1.75rem;
+    }
+
+    .service-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--accent-light);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      margin-bottom: 1rem;
+    }
+
+    .service-card h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-primary);
+    }
+
+    .service-card p {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .project-thumb {
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+    }
+
+    .thumb-1 { background: #eef0fb; }
+    .thumb-2 { background: #f0f9f4; }
+    .thumb-3 { background: #fdf4ee; }
+
+    .project-info {
+      padding: 1.25rem;
+    }
+
+    .project-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .project-info h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .project-info p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ── ABOUT ── */
+    .about-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    @media (max-width: 600px) {
+      .about-block { grid-template-columns: 1fr; }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+
+    .about-block h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      margin-bottom: 1rem;
+    }
+
+    .about-block p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    .about-visual {
+      background: var(--accent-light);
+      border-radius: 12px;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about-monogram {
+      font-size: 4rem;
+      font-weight: 800;
+      letter-spacing: -4px;
+      color: var(--text-primary);
+      opacity: 0.15;
+    }
+
+    /* ── CONTACT ── */
+    .contact-strip {
+      background: var(--text-primary);
+      color: #fff;
+      text-align: center;
+      padding: 3.5rem 2rem;
+    }
+
+    .contact-strip h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 0.75rem;
+    }
+
+    .contact-strip p {
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 1.5rem;
+      font-size: 15px;
+    }
+
+    .btn-white {
+      background: #fff;
+      color: #1a1a1a;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      transition: opacity 0.2s;
+    }
+
+    .btn-white:hover { opacity: 0.9; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 2rem;
+      font-size: 13px;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav>
+  <a class="logo" href="#">
+    <div class="logo-mark">KS</div>
+    <div class="logo-text">KSPR <span>Builds</span></div>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#services" data-key="nav_services">Services</a></li>
+    <li><a href="#projects" data-key="nav_projects">Projects</a></li>
+    <li><a href="#about" data-key="nav_about">About</a></li>
+    <li><a href="#contact" data-key="nav_contact">Contact</a></li>
+  </ul>
+
+  <div class="lang-selector">
+    🌐
+    <select id="langSelect" onchange="setLang(this.value)">
+      <option value="en">English</option>
+      <option value="hi">हिंदी</option>
+      <option value="te">తెలుగు</option>
+    </select>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-badge" data-key="badge">Building the web, one project at a time</div>
+  <h1 data-key="hero_h1">We design &amp; build<br><em>things that matter.</em></h1>
+  <p data-key="hero_p">KSPR Builds is a small, focused studio crafting clean websites, apps, and digital tools for people with real ideas.</p>
+  <div class="hero-cta">
+    <a href="#contact" class="btn-primary" data-key="cta_primary">Start a project</a>
+    <a href="#projects" class="btn-outline" data-key="cta_secondary">See our work</a>
+  </div>
+</section>
+
+<!-- ── STATS ── -->
+<div class="stats-strip">
+  <div class="stat-item">
+    <div class="stat-number">40+</div>
+    <div class="stat-label" data-key="stat1">Projects delivered</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">3</div>
+    <div class="stat-label" data-key="stat2">Years active</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">100%</div>
+    <div class="stat-label" data-key="stat3">Client satisfaction</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">∞</div>
+    <div class="stat-label" data-key="stat4">Ideas welcome</div>
+  </div>
+</div>
+
+<!-- ── SERVICES ── -->
+<section class="section" id="services">
+  <div class="section-label" data-key="services_label">What we do</div>
+  <div class="section-title" data-key="services_title">Our services</div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🖥️</div>
+      <h3 data-key="s1_title">Web Design</h3>
+      <p data-key="s1_desc">Clean, modern websites that look great on every screen. We focus on simplicity that actually works.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">⚙️</div>
+      <h3 data-key="s2_title">Web Development</h3>
+      <p data-key="s2_desc">From landing pages to full applications — built with solid, maintainable code from the ground up.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📱</div>
+      <h3 data-key="s3_title">Mobile Apps</h3>
+      <p data-key="s3_desc">Lightweight apps for Android and iOS. Fast, focused, and designed around real user needs.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🛠️</div>
+      <h3 data-key="s4_title">Maintenance & Support</h3>
+      <p data-key="s4_desc">We don't disappear after launch. Ongoing support, updates, and improvements are part of the deal.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section class="section" id="projects">
+  <div class="section-label" data-key="projects_label">Recent work</div>
+  <div class="section-title" data-key="projects_title">Featured projects</div>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-thumb thumb-1">📊</div>
+      <div class="project-info">
+        <div class="project-tag" data-key="p1_tag">Dashboard · 2024</div>
+        <h3 data-key="p1_title">Analytics Dashboard</h3>
+        <p data-key="p1_desc">A real-time reporting dashboard for a local retail business. Cut their reporting time by 60%.</p>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-thumb thumb-2">🛒</div>
+      <div class="project-info">
+        <div class="project-tag" data-key="p2_tag">E-commerce · 2024</div>
+        <h3 data-key="p2_title">Online Store</h3>
+        <p data-key="p2_desc">A fast, minimal store for a Hyderabad-based handmade goods seller. Mobile-first design.</p>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-thumb thumb-3">📚</div>
+      <div class="project-info">
+        <div class="project-tag" data-key="p3_tag">Education · 2025</div>
+        <h3 data-key="p3_title">Learning Portal</h3>
+        <p data-key="p3_desc">A course platform for a tutor with 500+ students — built clean, no bloated plugins.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section class="section" id="about">
+  <div class="about-block">
+    <div>
+      <div class="section-label" data-key="about_label">Who we are</div>
+      <h2 data-key="about_title">Small team. Big output.</h2>
+      <p data-key="about_p1">KSPR Builds started as a one-person operation with one goal: make good things. We keep our team small so every project gets full attention, not assembly-line treatment.</p>
+      <p data-key="about_p2">Based in Hyderabad. Working with clients across India and beyond.</p>
+    </div>
+    <div class="about-visual">
+      <div class="about-monogram">KSPR</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<div class="contact-strip" id="contact">
+  <h2 data-key="contact_h2">Have a project in mind?</h2>
+  <p data-key="contact_p">Let's talk. No sales pitch — just a real conversation about your idea.</p>
+  <a href="mailto:hello@kspr.builds" class="btn-white" data-key="contact_btn">Send us a message</a>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <span>© 2025 KSPR Builds. All rights reserved.</span>
+  <span data-key="footer_tagline">Designed & built in Hyderabad 🇮🇳</span>
+</footer>
+
+<!-- ── TRANSLATIONS ── -->
+<script>
+const translations = {
+  en: {
+    badge: "Building the web, one project at a time",
+    hero_h1: "We design &amp; build<br><em>things that matter.</em>",
+    hero_p: "KSPR Builds is a small, focused studio crafting clean websites, apps, and digital tools for people with real ideas.",
+    cta_primary: "Start a project",
+    cta_secondary: "See our work",
+    stat1: "Projects delivered", stat2: "Years active", stat3: "Client satisfaction", stat4: "Ideas welcome",
+    nav_services: "Services", nav_projects: "Projects", nav_about: "About", nav_contact: "Contact",
+    services_label: "What we do", services_title: "Our services",
+    s1_title: "Web Design", s1_desc: "Clean, modern websites that look great on every screen. We focus on simplicity that actually works.",
+    s2_title: "Web Development", s2_desc: "From landing pages to full applications — built with solid, maintainable code from the ground up.",
+    s3_title: "Mobile Apps", s3_desc: "Lightweight apps for Android and iOS. Fast, focused, and designed around real user needs.",
+    s4_title: "Maintenance & Support", s4_desc: "We don't disappear after launch. Ongoing support, updates, and improvements are part of the deal.",
+    projects_label: "Recent work", projects_title: "Featured projects",
+    p1_tag: "Dashboard · 2024", p1_title: "Analytics Dashboard", p1_desc: "A real-time reporting dashboard for a local retail business. Cut their reporting time by 60%.",
+    p2_tag: "E-commerce · 2024", p2_title: "Online Store", p2_desc: "A fast, minimal store for a Hyderabad-based handmade goods seller. Mobile-first design.",
+    p3_tag: "Education · 2025", p3_title: "Learning Portal", p3_desc: "A course platform for a tutor with 500+ students — built clean, no bloated plugins.",
+    about_label: "Who we are", about_title: "Small team. Big output.",
+    about_p1: "KSPR Builds started as a one-person operation with one goal: make good things. We keep our team small so every project gets full attention, not assembly-line treatment.",
+    about_p2: "Based in Hyderabad. Working with clients across India and beyond.",
+    contact_h2: "Have a project in mind?",
+    contact_p: "Let's talk. No sales pitch — just a real conversation about your idea.",
+    contact_btn: "Send us a message",
+    footer_tagline: "Designed & built in Hyderabad 🇮🇳"
+  },
+  hi: {
+    badge: "एक-एक प्रोजेक्ट से वेब बना रहे हैं",
+    hero_h1: "हम डिज़ाइन &amp; बिल्ड करते हैं<br><em>जो मायने रखता है।</em>",
+    hero_p: "KSPR Builds एक छोटा, केंद्रित स्टूडियो है जो असली विचारों वाले लोगों के लिए वेबसाइट, ऐप और डिजिटल टूल बनाता है।",
+    cta_primary: "प्रोजेक्ट शुरू करें",
+    cta_secondary: "हमारा काम देखें",
+    stat1: "प्रोजेक्ट पूरे किए", stat2: "साल सक्रिय", stat3: "क्लाइंट संतुष्टि", stat4: "विचारों का स्वागत",
+    nav_services: "सेवाएं", nav_projects: "प्रोजेक्ट", nav_about: "हमारे बारे में", nav_contact: "संपर्क",
+    services_label: "हम क्या करते हैं", services_title: "हमारी सेवाएं",
+    s1_title: "वेब डिज़ाइन", s1_desc: "साफ, आधुनिक वेबसाइटें जो हर स्क्रीन पर शानदार दिखती हैं।",
+    s2_title: "वेब डेवलपमेंट", s2_desc: "लैंडिंग पेज से लेकर पूरे एप्लिकेशन तक — मजबूत कोड के साथ बनाए गए।",
+    s3_title: "मोबाइल ऐप्स", s3_desc: "Android और iOS के लिए हल्के ऐप्स। तेज, केंद्रित और उपयोगकर्ता की जरूरत के अनुसार।",
+    s4_title: "रखरखाव और सहायता", s4_desc: "लॉन्च के बाद हम गायब नहीं होते। निरंतर सहायता और अपडेट हमारी सेवा का हिस्सा हैं।",
+    projects_label: "हाल का काम", projects_title: "फीचर्ड प्रोजेक्ट",
+    p1_tag: "डैशबोर्ड · 2024", p1_title: "एनालिटिक्स डैशबोर्ड", p1_desc: "एक स्थानीय रिटेल व्यवसाय के लिए रीयल-टाइम रिपोर्टिंग डैशबोर्ड।",
+    p2_tag: "ई-कॉमर्स · 2024", p2_title: "ऑनलाइन स्टोर", p2_desc: "हैदराबाद के हस्तनिर्मित सामान विक्रेता के लिए मोबाइल-फर्स्ट स्टोर।",
+    p3_tag: "शिक्षा · 2025", p3_title: "लर्निंग पोर्टल", p3_desc: "500+ छात्रों वाले एक शिक्षक के लिए कोर्स प्लेटफॉर्म।",
+    about_label: "हम कौन हैं", about_title: "छोटी टीम। बड़ा आउटपुट।",
+    about_p1: "KSPR Builds एक लक्ष्य के साथ शुरू हुआ: अच्छी चीजें बनाना। हम टीम छोटी रखते हैं ताकि हर प्रोजेक्ट पर पूरा ध्यान दे सकें।",
+    about_p2: "हैदराबाद में स्थित। पूरे भारत और उससे परे के क्लाइंट के साथ काम करते हुए।",
+    contact_h2: "कोई प्रोजेक्ट है मन में?",
+    contact_p: "बात करते हैं। कोई बिक्री नहीं — बस आपके विचार पर एक असली बातचीत।",
+    contact_btn: "संदेश भेजें",
+    footer_tagline: "हैदराबाद में डिज़ाइन और निर्मित 🇮🇳"
+  },
+  te: {
+    badge: "ఒక్కో ప్రాజెక్ట్‌తో వెబ్ నిర్మిస్తున్నాం",
+    hero_h1: "మేం డిజైన్ &amp; బిల్డ్ చేస్తాం<br><em>ముఖ్యమైన వాటిని.</em>",
+    hero_p: "KSPR Builds అనేది చిన్న, కేంద్రీకృత స్టూడియో — నిజమైన ఆలోచనలు ఉన్న వ్యక్తుల కోసం వెబ్‌సైట్లు, యాప్‌లు మరియు డిజిటల్ సాధనాలు తయారు చేస్తుంది.",
+    cta_primary: "ప్రాజెక్ట్ ప్రారంభించండి",
+    cta_secondary: "మా పని చూడండి",
+    stat1: "ప్రాజెక్ట్లు పూర్తయ్యాయి", stat2: "సంవత్సరాలు సక్రియంగా", stat3: "క్లయింట్ సంతృప్తి", stat4: "ఆలోచనలకు స్వాగతం",
+    nav_services: "సేవలు", nav_projects: "ప్రాజెక్ట్లు", nav_about: "మా గురించి", nav_contact: "సంప్రదించండి",
+    services_label: "మేం ఏమి చేస్తాం", services_title: "మా సేవలు",
+    s1_title: "వెబ్ డిజైన్", s1_desc: "ప్రతి స్క్రీన్‌లో అద్భుతంగా కనిపించే శుభ్రమైన, ఆధునిక వెబ్‌సైట్లు.",
+    s2_title: "వెబ్ డెవలప్‌మెంట్", s2_desc: "ల్యాండింగ్ పేజ్‌ల నుండి పూర్తి అప్లికేషన్ల వరకు — దృఢమైన కోడ్‌తో నిర్మించబడింది.",
+    s3_title: "మొబైల్ యాప్లు", s3_desc: "Android మరియు iOS కోసం తేలికైన యాప్‌లు. వేగంగా, కేంద్రీకృతంగా.",
+    s4_title: "నిర్వహణ & మద్దతు", s4_desc: "లాంచ్ తర్వాత మేం మాయమవ్వం. నిరంతర మద్దతు మా సేవలో భాగం.",
+    projects_label: "ఇటీవలి పని", projects_title: "ఫీచర్డ్ ప్రాజెక్ట్లు",
+    p1_tag: "డాష్‌బోర్డ్ · 2024", p1_title: "అనలిటిక్స్ డాష్‌బోర్డ్", p1_desc: "స్థానిక రిటెయిల్ వ్యాపారం కోసం రియల్-టైమ్ రిపోర్టింగ్ డాష్‌బోర్డ్.",
+    p2_tag: "ఇ-కామర్స్ · 2024", p2_title: "ఆన్‌లైన్ స్టోర్", p2_desc: "హైదరాబాద్ ఆధారిత హస్తకళా వస్తువుల విక్రేత కోసం మొబైల్-ఫర్స్ట్ స్టోర్.",
+    p3_tag: "విద్య · 2025", p3_title: "లెర్నింగ్ పోర్టల్", p3_desc: "500+ విద్యార్థులతో ఒక ట్యూటర్ కోసం కోర్స్ ప్లాట్‌ఫారమ్.",
+    about_label: "మేం ఎవరు", about_title: "చిన్న జట్టు. పెద్ద అవుట్‌పుట్.",
+    about_p1: "KSPR Builds ఒక లక్ష్యంతో ప్రారంభమైంది: మంచి వాటిని నిర్మించడం. ప్రతి ప్రాజెక్ట్‌కు పూర్తి శ్రద్ధ ఇచ్చేందుకు జట్టు చిన్నగా ఉంచుతాం.",
+    about_p2: "హైదరాబాద్ లో ఉంది. భారతదేశం మరియు అంతటా క్లయింట్లతో పని చేస్తున్నారు.",
+    contact_h2: "మనసులో ఏమైనా ప్రాజెక్ట్ ఉందా?",
+    contact_p: "మాట్లాడదాం. అమ్మకపు మాటలు లేవు — మీ ఆలోచనపై నిజమైన సంభాషణ.",
+    contact_btn: "మాకు సందేశం పంపండి",
+    footer_tagline: "హైదరాబాద్‌లో డిజైన్ మరియు నిర్మించబడింది 🇮🇳"
+  }
+};
+
+function setLang(lang) {
+  const t = translations[lang];
+  document.querySelectorAll('[data-key]').forEach(el => {
+    const key = el.getAttribute('data-key');
+    if (t[key] !== undefined) el.innerHTML = t[key];
+  });
+  document.documentElement.lang = lang;
+}
+</script>
+</body>
+</html>
 
